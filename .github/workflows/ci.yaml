@@ -1,0 +1,33 @@
+name: App CI
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    runs-on: [self-hosted]
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Debug Info
+        run: |
+          whoami
+          docker ps
+
+      - name: Build Image
+        run: docker build -t ar-demo:latest .
+
+      - name: Stop Old Container
+        run: docker rm -f ar-demo || true
+
+      - name: Run Container
+        run: |
+          docker run -d \
+            --name ar-demo \
+            -p 4000:3000 \
+            --env-file /etc/mini-app/secrets/backend.env \
+            ar-demo:latest
