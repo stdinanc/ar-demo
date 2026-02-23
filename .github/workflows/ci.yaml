@@ -29,5 +29,5 @@ jobs:
           docker run -d \
             --name ar-demo \
             -p 4000:3000 \
-            --env-file /etc/mini-app/secrets/backend.env \
+            --env-file /etc/ar-demo/secrets/backend.env \
             ar-demo:latest
